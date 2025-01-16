@@ -1,0 +1,11 @@
+{
+	"extends": [
+		"@tsconfig/node-lts/tsconfig.json",
+		"@tsconfig/strictest/tsconfig.json"
+	],
+	"compilerOptions": {
+		"types": ["node"],
+		"outDir": "dist"
+	},
+	"exclude": ["dist"]
+}

@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"yoavbls.pretty-ts-errors",
+		"biomejs.biome",
+		"esbenp.prettier-vscode" // For markdown files
+	]
+}

@@ -1,0 +1,31 @@
+{
+	"name": "instagres",
+	"version": "1.0.2",
+	"type": "module",
+	"engines": {
+		"node": ">=22"
+	},
+	"description": "Instant Postgres",
+	"bin": {
+		"instagres": "dist/instagres.js"
+	},
+	"files": ["dist"],
+	"scripts": {
+		"build": "tsc"
+	},
+	"author": "guillaumervls",
+	"license": "Apache-2.0",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@tsconfig/node-lts": "^22.0.1",
+		"@tsconfig/strictest": "^2.0.5",
+		"@types/node": "^22.10.1",
+		"typescript": "^5.7.2"
+	},
+	"dependencies": {
+		"arg": "^5.0.2",
+		"dotenv": "^16.4.7",
+		"open": "^10.1.0",
+		"p-wait-for": "^5.0.2"
+	}
+}
