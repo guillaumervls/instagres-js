@@ -52,7 +52,7 @@ import pWaitFor from "p-wait-for";
 			);
 			if (!res.ok) return false;
 			return pWaitFor.resolveWith(
-				((await res.json()) as { connectionString: string }).connectionString,
+				((await res.json()) as { connectionString: string }).connectionString.trim(),
 			);
 		},
 		{ before: false, interval: 2000 },
