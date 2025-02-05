@@ -4,13 +4,26 @@ Instant Postgres. No signup required. Powered by [Neon](https://neon.tech).
 
 ## CLI Usage
 
-To get started, run:
+To get started, run one of the commands below.
+This will give you a Postgres connection string and add it to a `.env` file.
+(You need one of Node.js / Bun / Deno installed.)
 
 ```sh
+# Node + NPM
 npx instagres
-```
 
-Running this will give you a Postgres connection string and add it to a `.env` file. (You need Node.js installed.)
+# Node + Yarn
+yarn dlx instagres
+
+# Node + PNPM
+pnpx instagres
+
+# Bun
+bunx instagres
+
+# Deno
+deno run -A npm:instagres
+```
 
 Available options:
 
@@ -23,7 +36,17 @@ Available options:
 ## Library usage
 
 ```sh
+# NPM
 npm install instagres
+
+# Yarn
+yarn add instagres
+
+# PNPM
+pnpm install instagres
+
+# Bun
+bun install instagres
 ```
 
 Use the `instagres` async function to retrieve an instant Postgres connection string from Instagres. If the `DATABASE_URL` (or a custom key) is not already set in your specified `.env` file, the function will:
@@ -34,6 +57,15 @@ Use the `instagres` async function to retrieve an instant Postgres connection st
 1. Return the connection string.
 
 ```js
+// ESM
+import instagres from "instagres";
+
+// CommonJS
+const { default: instagres } = require("instagres");
+
+// Deno
+import instagres from "npm:instagres@^1.1.4";
+
 /**
  * Creates an instant Postgres connection string from Instagres by Neon
  * if not already set in the specified .env file.
@@ -47,5 +79,12 @@ Use the `instagres` async function to retrieve an instant Postgres connection st
  *
  * @returns {Promise<string>} - The Postgres connection string.
  */
-const connectionString = await instagres({ dotEnvFile, dotEnvKey });
+// use defaults
+const connectionString = await instagres();
+// or pass (some) options
+const connectionString = await instagres({
+  dotEnvFile: ".env",
+  dotEnvKey: "DATABASE_URL",
+  withPooler: false,
+});
 ```
