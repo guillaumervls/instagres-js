@@ -12,7 +12,10 @@
 		"build": "tsc",
 		"prepare": "npm run build"
 	},
-	"repository": "neondatabase-labs/instagres-js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/neondatabase-labs/instagres-js.git"
+	},
 	"author": "guillaumervls",
 	"license": "Apache-2.0",
 	"devDependencies": {
