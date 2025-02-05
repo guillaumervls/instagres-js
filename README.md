@@ -10,7 +10,15 @@ To get started, run:
 npx instagres
 ```
 
-Running this will give you a Postgres connection string and add it to a `.env` file. (You need NodeJS installed.)
+Running this will give you a Postgres connection string and add it to a `.env` file. (You need Node.js installed.)
+
+Available options:
+
+```txt
+--file   : Path to the .env file - defaults to .env
+--name   : Environment variable key for the connection string in the .env file - defaults to DATABASE_URL
+--pooler : Get a connection string to a connection pooler - not enabled by default
+```
 
 ## Library usage
 
@@ -35,6 +43,7 @@ Use the `instagres` async function to retrieve an instant Postgres connection st
  * @param {Object} params - The function parameters.
  * @param {string} [params.dotEnvFile='.env'] - The path to the .env file.
  * @param {string} [params.dotEnvKey='DATABASE_URL'] - The environment variable key for the connection string.
+ * @param {boolean} [params.withPooler=false] - Indicates whether a connection pooler should be used.
  *
  * @returns {Promise<string>} - The Postgres connection string.
  */
