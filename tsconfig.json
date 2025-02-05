@@ -5,7 +5,9 @@
 	],
 	"compilerOptions": {
 		"types": ["node"],
-		"outDir": "dist"
-	},
-	"exclude": ["dist"]
+		"outDir": "dist",
+		"rootDir": "src",
+		"declaration": true,
+		"declarationMap": true
+	}
 }

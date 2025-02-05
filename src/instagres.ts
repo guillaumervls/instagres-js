@@ -1,37 +1,42 @@
-#!/usr/bin/env node
-
-import arg from "arg";
 import { parse } from "dotenv";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
 import open from "open";
 import pWaitFor from "p-wait-for";
 
-(async () => {
-	const {
-		"--file": dotEnvFile = ".env",
-		"--name": dotEnvKey = "DATABASE_URL",
-	} = arg({
-		"--name": String,
-		"--file": String,
-	});
-
+/**
+ * Creates an instant Postgres connection string from Instagres by Neon
+ * if not already set in the specified .env file.
+ * Prompts the user to optionally generate a connection string,
+ * saves it to the .env file, and returns the connection string.
+ *
+ * @param {Object} params - The function parameters.
+ * @param {string} [params.dotEnvFile='.env'] - The path to the .env file.
+ * @param {string} [params.dotEnvKey='DATABASE_URL'] - The name for the connection string in the .env file.
+ *
+ * @returns {Promise<string | undefined>} - A promise resolving to the Postgres connection string or undefined if not generated.
+ */
+const instagres = async ({
+	dotEnvFile = ".env",
+	dotEnvKey = "DATABASE_URL",
+} = {}) => {
 	const dotEnvContent = existsSync(dotEnvFile)
 		? parse(readFileSync(dotEnvFile, "utf8"))
 		: {};
 	const existingValue = dotEnvContent[dotEnvKey];
 
 	// If the value is already set, we don't need to do anything.
-	if (existingValue) process.exit(0);
+	if (existingValue) return existingValue;
 
 	console.log(`${dotEnvKey} not found in ${dotEnvFile}`);
 	const rl = createInterface(process.stdin, process.stderr);
 	const ok = await rl.question(
 		"Would you like an instant Postgres connection string from Neon (No signup required)? (Y/n): ",
 	);
+	rl.close();
 	if (ok.toLowerCase() === "n") {
 		console.log("No problem! You can set it up manually.");
-		process.exit(1);
+		return;
 	}
 
 	console.log(
@@ -69,5 +74,7 @@ import pWaitFor from "p-wait-for";
 	);
 	console.log(`Saved it to ${dotEnvFile} as ${dotEnvKey}`);
 
-	process.exit(0);
-})();
+	return connString;
+};
+
+export default instagres;
