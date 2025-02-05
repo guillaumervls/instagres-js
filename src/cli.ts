@@ -4,11 +4,16 @@ import arg from "arg";
 import instagres from "./instagres.js";
 
 (async () => {
-	const { "--file": dotEnvFile, "--name": dotEnvKey } = arg({
+	const {
+		"--file": dotEnvFile,
+		"--name": dotEnvKey,
+		"--pooler": withPooler,
+	} = arg({
 		"--name": String,
 		"--file": String,
+		"--pooler": Boolean,
 	});
 
-	const connString = await instagres({ dotEnvFile, dotEnvKey });
+	const connString = await instagres({ dotEnvFile, dotEnvKey, withPooler });
 	process.exit(connString ? 0 : 1);
 })();

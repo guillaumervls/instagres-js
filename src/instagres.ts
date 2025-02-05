@@ -13,12 +13,14 @@ import pWaitFor from "p-wait-for";
  * @param {Object} params - The function parameters.
  * @param {string} [params.dotEnvFile='.env'] - The path to the .env file.
  * @param {string} [params.dotEnvKey='DATABASE_URL'] - The name for the connection string in the .env file.
+ * @param {boolean} [params.withPooler=false] - Indicates whether a connection pooler should be used.
  *
  * @returns {Promise<string | undefined>} - A promise resolving to the Postgres connection string or undefined if not generated.
  */
 const instagres = async ({
 	dotEnvFile = ".env",
 	dotEnvKey = "DATABASE_URL",
+	withPooler = false,
 } = {}) => {
 	const dotEnvContent = existsSync(dotEnvFile)
 		? parse(readFileSync(dotEnvFile, "utf8"))
@@ -50,7 +52,7 @@ const instagres = async ({
 	const verificationUrl = `https://www.instagres.com/databases/${dbId}`;
 	console.log(verificationUrl);
 	open(verificationUrl);
-	const connString = await pWaitFor<string>(
+	let connString = await pWaitFor<string>(
 		async () => {
 			const res = await fetch(
 				`https://www.instagres.com/api/v1/databases/${dbId}`,
@@ -62,6 +64,10 @@ const instagres = async ({
 		},
 		{ before: false, interval: 2000 },
 	);
+	if (withPooler) {
+		const [start, ...end] = connString.split(".");
+		connString = `${start}-pooler.${end.join(".")}`;
+	}
 	console.log("\nHere's your connection string:");
 	console.log(connString);
 
