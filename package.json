@@ -1,6 +1,6 @@
 {
 	"name": "instagres",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"type": "module",
 	"description": "Instant Postgres",
 	"main": "dist/instagres.js",
@@ -12,6 +12,7 @@
 		"build": "tsc",
 		"prepare": "npm run build"
 	},
+	"repository": "neondatabase-labs/instagres-js",
 	"author": "guillaumervls",
 	"license": "Apache-2.0",
 	"devDependencies": {
