@@ -14,6 +14,7 @@ import pWaitFor from "p-wait-for";
  * @param {string} [params.dotEnvFile='.env'] - The path to the .env file.
  * @param {string} [params.dotEnvKey='DATABASE_URL'] - The name for the connection string in the .env file.
  * @param {boolean} [params.withPooler=false] - Indicates whether a connection pooler should be used.
+ * @param {string} params.source - A name to help us (Instagres & Neon) understand where this is coming from. You should set this to the name of your project.
  *
  * @returns {Promise<string | undefined>} - A promise resolving to the Postgres connection string or undefined if not generated.
  */
@@ -21,7 +22,17 @@ const instagres = async ({
 	dotEnvFile = ".env",
 	dotEnvKey = "DATABASE_URL",
 	withPooler = false,
-} = {}) => {
+	source,
+}: {
+	dotEnvFile?: string;
+	dotEnvKey?: string;
+	withPooler?: boolean;
+	source: string;
+}): Promise<string | undefined> => {
+	if (!source)
+		throw new Error(
+			"Source parameter is empty. You should set this to the name of your project.",
+		);
 	const dotEnvContent = existsSync(dotEnvFile)
 		? parse(readFileSync(dotEnvFile, "utf8"))
 		: {};
@@ -52,9 +63,12 @@ const instagres = async ({
 		"\nPaste the link below in your browser if it doesn't open automatically:",
 	);
 	const dbId = crypto.randomUUID();
-	const verificationUrl = `https://www.instagres.com/databases/${dbId}`;
-	console.log(verificationUrl);
-	open(verificationUrl);
+	const verificationUrl = new URL(
+		`https://www.instagres.com/databases/${dbId}`,
+	);
+	verificationUrl.searchParams.append("ref", source);
+	console.log(verificationUrl.href);
+	open(verificationUrl.href);
 	let connString = await pWaitFor<string>(
 		async () => {
 			const res = await fetch(

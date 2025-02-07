@@ -76,15 +76,17 @@ import instagres from "npm:instagres@^1.1.4";
  * @param {string} [params.dotEnvFile='.env'] - The path to the .env file.
  * @param {string} [params.dotEnvKey='DATABASE_URL'] - The environment variable key for the connection string.
  * @param {boolean} [params.withPooler=false] - Indicates whether a connection pooler should be used.
+ * @param {string} params.source - A name to help us (Instagres & Neon) understand where this is coming from. You should set this to the name of your project.
  *
  * @returns {Promise<string>} - The Postgres connection string.
  */
 // use defaults
-const connectionString = await instagres();
+const connectionString = await instagres({ source: "my-cool-project" });
 // or pass (some) options
 const connectionString = await instagres({
   dotEnvFile: ".env",
   dotEnvKey: "DATABASE_URL",
   withPooler: false,
+  source: "my-cool-project",
 });
 ```

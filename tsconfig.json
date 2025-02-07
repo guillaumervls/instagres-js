@@ -4,6 +4,7 @@
 		"@tsconfig/strictest/tsconfig.json"
 	],
 	"compilerOptions": {
+		"exactOptionalPropertyTypes": false,
 		"types": ["node"],
 		"outDir": "dist",
 		"rootDir": "src",

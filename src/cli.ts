@@ -14,6 +14,11 @@ import instagres from "./instagres.js";
 		"--pooler": Boolean,
 	});
 
-	const connString = await instagres({ dotEnvFile, dotEnvKey, withPooler });
+	const connString = await instagres({
+		dotEnvFile,
+		dotEnvKey,
+		withPooler,
+		source: "instagres-cli",
+	});
 	process.exit(connString ? 0 : 1);
 })();
