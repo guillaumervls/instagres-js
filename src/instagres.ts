@@ -28,7 +28,10 @@ const instagres = async ({
 	const existingValue = dotEnvContent[dotEnvKey];
 
 	// If the value is already set, we don't need to do anything.
-	if (existingValue) return existingValue;
+	if (existingValue) {
+		console.log(`${dotEnvKey} found in ${dotEnvFile}`);
+		return;
+	}
 
 	console.log(`${dotEnvKey} not found in ${dotEnvFile}`);
 	const rl = createInterface(process.stdin, process.stderr);
