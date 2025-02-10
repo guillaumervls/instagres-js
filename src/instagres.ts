@@ -1,4 +1,5 @@
 import { parse } from "dotenv";
+import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
 import open from "open";
@@ -62,7 +63,7 @@ const instagres = async ({
 	console.log(
 		"\nPaste the link below in your browser if it doesn't open automatically:",
 	);
-	const dbId = crypto.randomUUID();
+	const dbId = randomUUID();
 	const verificationUrl = new URL(
 		`https://www.instagres.com/databases/${dbId}`,
 	);
